@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <f:view>
+        <h:head>
+            <title>Agregar Marcador</title>
+            <h:outputStylesheet name="css/estilos.css"/>
+            <h:outputStylesheet name="css/mapestilos.css"/>
+        </h:head>
+        
+        <h:body>
+            <header>
+                <ui:insert name="header" >
+                    <ui:include src="/templates/header.xhtml" />
+		</ui:insert>
+            </header>
+            
+            <main>
+                <section>
+                </section>
+                
+                <aside>
+                    <h:form id="agregaMarcador">
+                        <h1> Marcador</h1>
+                        
+                        <p>Tema</p>
+                        <p:inputText id="tema" placeholder="Tema" value="#{aBMarcadorController.tema}" required="true" requiredMessage="Indica el tema al que será agregado el marcador"/>
+                        
+                        <p>Latitud</p>
+                        <p:inputNumber  decimalPlaces="4" id="latitud" value="#{aBMarcadorController.latitud}" />
+                        
+                        <p>Longitud</p>
+                        <p:inputNumber id="longitud" decimalPlaces="4" value="#{aBMarcadorController.longitud}"/>
+                        
+                        <p>Descripción</p>
+                        <p:inputTextarea id="descripcion" placeholder="Añade una breve descripción del marcador" value="${aBMarcadorController.descripcion}" required="true" requiredMessage="Es necesaria una descripción sobre el marcador"/>
+                        
+                        <p>Datos Útiles</p>
+                        <p:inputTextarea id="datosUtiles" placeholder="Agrega datos útiles sobre este marcador, como detalles, estadísticas, etc..." value="${aBMarcadorController.datosUtiles}"/>  
+                        
+                        <p:commandButton id="agregar" value="Agregar Marcador" action="#{aBMarcadorController.agregaMarcador()}"/>
+                        <p:commandButton id="cancelar" value="Cancelar" action="/informador/PerfilInformadorIH?faces-redirect=true" styleClass="logout"/>
+                    </h:form>
+                    <UL>
+                        <LI><a href="PerfilInformadorIH.xhtml">Pagina Principal</a></LI>
+                    </UL>
+                </aside>
+            </main>
+            
+            <footer>
+                <ui:insert name="footer" >
+                    <ui:include src="/templates/footer.xhtml"/>
+		</ui:insert>
+            </footer>
+        </h:body>
+    </f:view>
+</html>

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <title>#{user.nombre}</title>
+            <h:outputStylesheet name="css/estilos.css"/>
+            <h:outputStylesheet name="css/mapestilos.css"/>
+        </h:head>
+        
+        <h:body>
+            <header>
+                <ui:insert name="header" >
+                    <ui:include src="/templates/header.xhtml" />
+		</ui:insert>
+            </header>
+            
+            <main>
+                <section>
+                </section>
+                
+                <aside>
+                    <h3>Aquí estan tus opciones:</h3>
+                    <br />
+                    <ul>
+                        <li><a href="AgregarTemaIH.xhtml">Agrega Tema</a></li>
+                        <li><a href="AgregarMarcadorIH.xhtml">Agrega Marcador</a></li>
+                        <li>Ver mis temas</li>
+                        <li>Ver mis marcadores</li>
+                        <!--link a VistaTemaIH con parametro "tema" con valor "Prueba"-->
+                    </ul>
+                </aside>
+            
+            </main>
+            <footer>
+                <ui:insert name="footer" >
+                    <ui:include src="/templates/footer.xhtml" />
+		</ui:insert>
+            </footer>
+        </h:body>
+    </f:view>
+</html>

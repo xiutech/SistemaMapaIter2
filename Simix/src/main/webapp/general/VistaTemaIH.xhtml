@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view>
+        <h:head>
+            <title>Tema</title>
+            <h:outputStylesheet name="css/estilos.css"/>
+            <h:outputStylesheet name="css/mapestilos.css"/>
+        </h:head>
+        <h:body>
+            <header>
+                    <ui:insert name="header" >
+                      <ui:include src="/templates/header.xhtml" />
+                    </ui:insert>
+            </header>
+                <main>
+                    <section>
+
+                    </section>
+                    <aside>
+                        <h1>Información sobre el tema</h1>
+                        <h:form>
+                            <h:outputText value="Nombre: #{param['tema']}"/>
+
+                            <p:dataList value="#{marcadorDAO.buscaPorTema(param['tema'])}" var="marker">
+                                <f:facet name="header">
+                                     Marcadores
+                                </f:facet>
+
+                                <p:commandLink title="View Detail"  oncomplete="PF('markerDialog').show()">
+                                    <f:setPropertyActionListener value="#{marker}" target="#{verMarcadores.seleccionado}"/>
+                                    <h:outputText value="#{marker.latitud}, #{marker.longitud}" style="display:inline-block"/>
+                                </p:commandLink>
+                            </p:dataList>    
+                            
+                            <!--Solucionar obtener datos del seleccionado-->
+                            <p:dialog header="Detalles de Marcador" widgetVar="markerDialog" modal="true" showEffect="blind" hideEffect="explode" resizable="false">
+                                <p:outputPanel id="markerDetail" style="text-align:center;">
+                                    <p:panelGrid  columns="2" styleClass="ui-noborder" >
+                                        <h:outputText value="Latitud:" />
+                                        <h:outputText value="#{verMarcadores.seleccionado.latitud}" />
+
+                                        <h:outputText value="Longitud" />
+                                        <h:outputText value="#{verMarcadores.seleccionado.longitud}" />
+
+                                        <h:outputText value="Descripción:" />
+                                        <h:outputText value="#{verMarcadores.seleccionado.descripcion}" />
+
+                                        <h:outputText value="Datos útiles" />
+                                        <h:outputText value="#{verMarcadores.seleccionado.datosUtiles}" />
+                                        
+                                        <p:button outcome="/comentarista/AgregarComentarioIH" value="Agregar Comentario">
+                                            <f:param name="marcadorId" value="1" />
+                                        </p:button>
+                                    </p:panelGrid>
+                                </p:outputPanel>
+                            </p:dialog>
+                        </h:form>
+                    </aside>
+                </main>
+            <footer>
+                    <ui:insert name="footer" >
+                      <ui:include src="/templates/footer.xhtml" />
+                    </ui:insert>
+            </footer>
+        </h:body>
+    </f:view>    
+</html>

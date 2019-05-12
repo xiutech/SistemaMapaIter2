@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view>
+          <h:head>
+            <title>Agregar Informador</title>
+            <h:outputStylesheet name="css/estilos.css"/>
+            <h:outputStylesheet name="css/mapestilos.css"/>
+        </h:head>
+        <h:body>
+            <header>
+                <ui:insert name="header" >
+                    <ui:include src="/templates/header.xhtml" />
+                </ui:insert>
+            </header>
+            <main>
+                <section>
+                <h:form id="alta_informador">
+                    <p:messages id="messages" showDetail="true" closable="true">
+                            <p:autoUpdate />
+                    </p:messages>
+                    <br/>
+                    <p:panelGrid columns="2" style="margin: 0 auto" styleClass="ui-noborder">
+                    <p>Nombre</p>
+                    <p:inputText class="texto" id="nombre" value="#{aBInformadorController.nombre}" required="true" placeholder="Nombre"  validatorMessage="Por favor ingresa tu nombre" requiredMessage="Por favor ingresa tu nombre"/>
+                    <p>Correo</p>
+                    <p:inputText class="texto" id="correo" value="#{aBInformadorController.correo}" required="true" placeholder="Correo" validatorMessage="Debe ser un correo valido" requiredMessage="Por favor ingresa un correo válido"> 
+                        <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                        <p:keyFilter regEx="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                    </p:inputText>
+                    <br/>
+                    <p:commandButton action="#{aBInformadorController.darAltaInformador()}" value="Agregar Informador" ajax="false"/>
+                    </p:panelGrid>
+                </h:form>
+                </section>
+                <aside>
+                    <h1>Menú</h1>
+                    <br />
+                    <UL>
+                        <LI><a href="PerfilAdministradorIH.xhtml">Página Principal</a></LI>
+                        <LI>Eliminar Informador</LI>
+                        <LI>Eliminar Tema</LI>
+                        <LI>Eliminar Comentario</LI>
+                        <LI>Eliminar Comentarista</LI>
+                    </UL>
+
+                </aside>
+            </main>
+            <footer>
+                <ui:insert name="footer" >
+                    <ui:include src="/templates/footer.xhtml" />
+                </ui:insert>
+            </footer>
+        </h:body>
+
+    </f:view>
+</html>

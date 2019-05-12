@@ -1,0 +1,98 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 19-feb-2019, 15:14:08
+    Author     : jhovangallardo
+*/
+
+/*
+ * Para la ventana en general
+ */
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+/* Tamaños para todo html y body en general*/
+html,body{
+    width: 100%;
+    height: 100%;
+    background: black;
+}
+
+
+body *{
+    box-sizing: border-box;
+}
+
+/* Formato del header: medidas, color, 
+ * borde redondeado 20px y estilo groove
+ */
+header{
+    width:100%;
+    height:10%;
+    background: mediumblue;
+    border-radius: 20px;
+    border-style: groove;
+    border-color: white;
+}
+
+/* Formato de un form dentro de un header: medidas*/
+header>form{
+    width: 100%;
+    height: 100%;
+}
+
+/* Formato para un "menu": medidas, color blanco
+ * y del lado derecho
+ */
+.menu{
+    background: rgba(0,0,0,0);
+    width: 50%;
+    height: 100%;
+    float: right;
+}
+
+
+/* Formato para un "menuitem": margen izquierdo y color*/
+.menuitem{
+    background: white;
+    margin-left: 10px;
+    
+}
+
+/* Formato para boton login: color verdoso y margen*/
+.login{
+  background: greenyellow;
+  margin-left: 10px;
+}
+
+/* Formato para botón logout: color rojo y margen*/
+.logout{
+  background: red;
+  margin-left: 10px;
+}
+
+/* Formato para el main: medidas, color azul oscuro
+ * y borde doble negro
+ */
+main{
+    width: 100%;
+    height: 85%;
+    border-style : double;
+    border-color : black;
+    background: darkblue;
+}
+
+/* Formato para el footer: medidas, borde redondeando 10px, 
+ * texto blanco y color negro*/
+footer{
+    width: 100%;
+    height: 5%;
+    border-radius: 10px;
+    background: black;
+    color: white;
+}

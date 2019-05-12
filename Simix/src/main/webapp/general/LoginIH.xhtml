@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Iniciar Sesion</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <h:outputStylesheet name="css/estilos.css"/>
+            <h:outputStylesheet name="css/loginregestilos.css"/>
+        </h:head>
+
+        <h:body>
+            <header>
+                <ui:insert name="header" >
+                    <ui:include src="/templates/header.xhtml" />
+                </ui:insert>
+            </header>
+            
+            <main>
+                <section>
+                    <h1>Inicia sesión con tu correo</h1>
+                    <h:form id="iniciarSesion">
+                        <p:panelGrid columns="2" style="margin: 0 auto" styleClass="ui-noborder">
+                            <p>Correo:</p>
+                            <p:inputText type="text" id="correo" value="#{sessionController.correo}" required="true" requiredMessage="Ingresa tu correo"/><br/>
+                            
+                            <p>Contraseña:</p>
+                            <p:password value="#{sessionController.contrasenia}" required="true" requiredMessage="Ingresa tu contraseña"/><br/>
+                            <p:commandButton action="#{sessionController.login()}" value="Iniciar sesion" update="iniciarSesion"/>
+                        </p:panelGrid>    
+                    </h:form>
+                </section>
+            </main>
+            
+            <footer>
+                <ui:insert name="footer" >
+                    <ui:include src="/templates/footer.xhtml" />
+                </ui:insert>
+            </footer>
+        </h:body>
+    </f:view>
+</html>
+

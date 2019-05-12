@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    <body>
+        <ui:composition>
+            <h:form>
+                <p:menubar id="menubar"  styleClass="menu">
+                    <p:menuitem value="SIMIX" styleClass="menuitem" action="/index?faces-redirect=true"/>
+                    <p:menuitem value="#{user.nombre}" url="/administrador/PerfilAdministradorIH.xhtml" styleClass="menuitem" rendered="#{not empty user and user.rol eq 'ADMINISTRADOR'}"/>
+                    <p:menuitem value="#{user.nombre}" url="/comentarista/PerfilComentaristaIH.xhtml" styleClass="menuitem" rendered="#{not empty user and user.rol eq 'COMENTARISTA'}"/>
+                    <p:menuitem value="#{user.nombre}" url="/informador/PerfilInformadorIH.xhtml" styleClass="menuitem" rendered="#{not empty user and user.rol eq 'INFORMADOR'}"/>
+                    <p:menuitem value="Registrarse" url="/general/RegistrarseIH.xhtml" styleClass="menuitem" rendered="#{empty user}"/>
+                    <p:menuitem value="Iniciar Sesion" url="/general/LoginIH.xhtml" styleClass="login" rendered="#{empty user}"/>
+                    <p:menuitem value="Cerrar Sesion" action="#{sessionController.logout()}" styleClass="logout" rendered="#{not empty user}"/>
+                </p:menubar>
+            </h:form>
+        </ui:composition>
+    </body>
+</html>

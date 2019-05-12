@@ -1,0 +1,28 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+
+/* Formato para un "section" en el main*/
+section{
+    width:70%;
+    height:70%; 
+    margin: 5% auto;
+    background: black;
+    color: white;
+    padding: 2%;
+    border-radius: 15px;
+    box-shadow: dodgerblue 0px 0px 5px 5px;
+}
+
+h1{
+    text-align: center;
+    margin-bottom: 5%;
+}
+
+#iniciarSesion{
+    border-color: white;
+    margin: 3% auto;
+    
+}

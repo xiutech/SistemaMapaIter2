@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 29-mar-2019 11:00:45 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class name="com.xiutech.simix.modelo.Tema" optimistic-lock="version" schema="public" table="tema">
+    <id name="nombre" type="string">
+      <column name="nombre"/>
+      <generator class="assigned"/>
+    </id>
+    <many-to-one class="com.xiutech.simix.modelo.Informador" fetch="select" name="informador">
+      <column name="correo_informador"/>
+    </many-to-one>
+    <property name="color" type="string">
+      <column name="color" not-null="true"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="marcadors" table="marcador">
+      <key>
+        <column name="nombre_tema"/>
+      </key>
+      <one-to-many class="com.xiutech.simix.modelo.Marcador"/>
+    </set>
+  </class>
+</hibernate-mapping>

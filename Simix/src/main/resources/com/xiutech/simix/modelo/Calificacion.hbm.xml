@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 29-mar-2019 11:00:45 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class name="com.xiutech.simix.modelo.Calificacion" optimistic-lock="version" schema="public" table="calificacion">
+    <composite-id class="com.xiutech.simix.modelo.CalificacionId" name="id">
+      <key-property name="idMarcador" type="int">
+        <column name="id_marcador"/>
+      </key-property>
+      <key-property name="correoComentarista" type="string">
+        <column name="correo_comentarista"/>
+      </key-property>
+      <key-property name="correoCalificador" type="string">
+        <column name="correo_calificador"/>
+      </key-property>
+    </composite-id>
+    <many-to-one class="com.xiutech.simix.modelo.Comentario" fetch="select" insert="false" name="comentario" update="false">
+      <column name="id_marcador" not-null="true"/>
+      <column name="correo_comentarista" not-null="true"/>
+    </many-to-one>
+    <many-to-one class="com.xiutech.simix.modelo.Comentarista" fetch="select" insert="false" name="comentarista" update="false">
+      <column name="correo_calificador" not-null="true"/>
+    </many-to-one>
+    <property name="calificacion" type="int">
+      <column name="calificacion" not-null="true"/>
+    </property>
+  </class>
+</hibernate-mapping>

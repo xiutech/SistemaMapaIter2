@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    
+    <f:view>
+        <h:head>
+            <title>#{user.nombre}</title>
+            <h:outputStylesheet name="css/estilos.css"/>
+            <h:outputStylesheet name="css/mapestilos.css"/>
+        </h:head>
+        
+        <h:body>   
+            <header>
+                <ui:insert name="header" >
+                   <ui:include src="/templates/header.xhtml" />
+                </ui:insert>
+            </header>
+            
+            <main>
+                <section>
+                </section>
+                
+                <aside>    
+                    <h3>Aquí estan tus opciones:</h3>
+                    <br />
+                    <UL>
+                        <LI><a href="AInformadorIH.xhtml">Agregar Informador</a></LI>
+                        <LI>Eliminar Informador</LI>
+                        <LI>Eliminar Tema</LI>
+                        <LI>Eliminar Comentario</LI>
+                        <LI>Eliminar Comentarista</LI>
+                    </UL>
+                </aside>
+            </main>
+            <footer>
+                <ui:insert name="footer" >
+                    <ui:include src="/templates/footer.xhtml" />
+                </ui:insert>
+            </footer>
+        </h:body>
+    </f:view>
+</html>
+
+

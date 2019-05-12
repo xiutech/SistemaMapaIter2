@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 29-mar-2019 11:00:45 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class name="com.xiutech.simix.modelo.Comentario" optimistic-lock="version" schema="public" table="comentario">
+    <composite-id class="com.xiutech.simix.modelo.ComentarioId" name="id">
+      <key-property name="idMarcador" type="int">
+        <column name="id_marcador"/>
+      </key-property>
+      <key-property name="correoComentarista" type="string">
+        <column name="correo_comentarista"/>
+      </key-property>
+    </composite-id>
+    <many-to-one class="com.xiutech.simix.modelo.Comentarista" fetch="select" insert="false" name="comentarista" update="false">
+      <column name="correo_comentarista" not-null="true"/>
+    </many-to-one>
+    <many-to-one class="com.xiutech.simix.modelo.Marcador" fetch="select" insert="false" name="marcador" update="false">
+      <column name="id_marcador" not-null="true"/>
+    </many-to-one>
+    <property name="texto" type="string">
+      <column name="texto" not-null="true"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="calificacions" table="calificacion">
+      <key>
+        <column name="id_marcador" not-null="true"/>
+        <column name="correo_comentarista" not-null="true"/>
+      </key>
+      <one-to-many class="com.xiutech.simix.modelo.Calificacion"/>
+    </set>
+  </class>
+</hibernate-mapping>
