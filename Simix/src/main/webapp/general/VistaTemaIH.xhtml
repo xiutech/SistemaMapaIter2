@@ -6,7 +6,9 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
     <f:view>
+
         <h:head>
             <title>Tema</title>
             <h:outputStylesheet name="css/estilos.css"/>
@@ -20,21 +22,21 @@
             </header>
                 <main>
                     <section>
-
+                        
                     </section>
+                    
                     <aside>
                         <h1>Información sobre el tema</h1>
                         <h:form>
-                            <h:outputText value="Nombre: #{param['tema']}"/>
-
+                            <h:outputText value="Tema: #{param['tema']}"/>
+                            <p> </p>
                             <p:dataList value="#{marcadorDAO.buscaPorTema(param['tema'])}" var="marker">
                                 <f:facet name="header">
                                      Marcadores
                                 </f:facet>
-
                                 <p:commandLink title="View Detail"  oncomplete="PF('markerDialog').show()">
-                                    <f:setPropertyActionListener value="#{marker}" target="#{verMarcadores.seleccionado}"/>
                                     <h:outputText value="#{marker.latitud}, #{marker.longitud}" style="display:inline-block"/>
+                                    <f:setPropertyActionListener value="#{marker}" target="#{verMarcadores.marcadorSeleccionado}" />
                                 </p:commandLink>
                             </p:dataList>    
                             
@@ -43,17 +45,20 @@
                                 <p:outputPanel id="markerDetail" style="text-align:center;">
                                     <p:panelGrid  columns="2" styleClass="ui-noborder" >
                                         <h:outputText value="Latitud:" />
-                                        <h:outputText value="#{verMarcadores.seleccionado.latitud}" />
+                                        <h:outputText value="#{verMarcadores.marcadorSeleccionado.latitud}"/>
 
                                         <h:outputText value="Longitud" />
-                                        <h:outputText value="#{verMarcadores.seleccionado.longitud}" />
+                                        <h:outputText value="#{verMarcadores.marcadorSeleccionado.longitud}"/>
 
                                         <h:outputText value="Descripción:" />
-                                        <h:outputText value="#{verMarcadores.seleccionado.descripcion}" />
+                                        <h:outputText value="#{verMarcadores.marcadorSeleccionado.descripcion}"/>
 
                                         <h:outputText value="Datos útiles" />
-                                        <h:outputText value="#{verMarcadores.seleccionado.datosUtiles}" />
+                                        <h:outputText value="#{verMarcadores.marcadorSeleccionado.datosUtiles}"/>
                                         
+                                        <p:inputTextarea id="comentario" value="#{aBMComentarioController.texto}"  required="true" placeholder="Escribe aquí tu cometario" requiredMessage="Por favor ingresa un comentario"/> <br/>
+                                        <p:commandButton action="#{aBMComentarioController.agregaComentario()}" value="Añadir comentario" ajax="false"/>
+
                                         <p:button outcome="/comentarista/AgregarComentarioIH" value="Agregar Comentario">
                                             <f:param name="marcadorId" value="1" />
                                         </p:button>
