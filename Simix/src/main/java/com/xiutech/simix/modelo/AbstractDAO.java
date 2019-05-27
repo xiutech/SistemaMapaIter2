@@ -119,7 +119,7 @@ public abstract class AbstractDAO<T> {
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
-            String hql = "From" + clazz;
+            String hql = "from "+clazz.getName();
             Query query = session.createQuery(hql);
             obj = (List<T>) query.list();
             tx.commit();
