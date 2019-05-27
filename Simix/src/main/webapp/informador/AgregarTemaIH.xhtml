@@ -22,10 +22,13 @@
             
             <main>
                 <section>
+                    <ui:insert name="mapa" >
+                        <ui:include src="/templates/mapa.xhtml" />
+                    </ui:insert>
                 </section>
                 
                 <aside>
-                    <h1> Tema</h1>
+                    <h1>Tema</h1>
                     
                     <h:form>
                         <p:messages id="messages" closable="true">

@@ -22,6 +22,9 @@
             
             <main>
                 <section>
+                    <ui:insert name="mapa" >
+                        <ui:include src="/templates/mapa.xhtml" />
+                    </ui:insert>
                 </section>
                 
                 <aside>
@@ -30,8 +33,7 @@
                     <ul>
                         <li><a href="AgregarTemaIH.xhtml">Agrega Tema</a></li>
                         <li><a href="AgregarMarcadorIH.xhtml">Agrega Marcador</a></li>
-                        <li>Ver mis temas</li>
-                        <li>Ver mis marcadores</li>
+                        <li> Ver mis temas</li>
                         <!--link a VistaTemaIH con parametro "tema" con valor "Prueba"-->
                     </ul>
                 </aside>
