@@ -12,12 +12,14 @@ import com.xiutech.simix.modelo.TemaDAO;
 import java.awt.Color;
 import java.util.Random;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 /**
  * Calse controlador dedicada al alta de temas en el sistema. 
  * @author Jose Fernando Reyes Garcia
  * @version 11/05/19 
  */
+@ViewScoped
 @ManagedBean
 public class ABTemaController {    
     private String nombre;

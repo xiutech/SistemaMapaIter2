@@ -10,12 +10,14 @@ import com.xiutech.simix.modelo.MarcadorDAO;
 import com.xiutech.simix.modelo.Tema;
 import com.xiutech.simix.modelo.TemaDAO;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
 /**
  * Clase controlador dedicada al alta de marcadores.
  * @author Jose Fernando Reyes Garcia
  * @version 11/05/19 
  */
+@ViewScoped
 @ManagedBean
 public class ABMarcadorController {
     private double longitud;
@@ -124,13 +126,13 @@ public class ABMarcadorController {
         this.datosUtiles = "Sin datos útiles";
         return "/informador/AgregarMarcadorIH?faces-redirect=true";
     }
+    
 
     /**
      * Agrega un marcador en la base de datos recibiendo un tema como parametro.
      * @return el url de redireccionamiento, en este caso, para agregar otro marcador.
-     *
-    public String agregaMarcadorNuevoTema(String tema){
-        this.tema = tema;
+     */
+    public String agregaMarcadorTema(){
         MarcadorDAO mdb = new MarcadorDAO();
         Marcador marcador = mdb.buscaPorLatLng(latitud, longitud);
         if(marcador!= null){
@@ -144,6 +146,8 @@ public class ABMarcadorController {
         marcador.setLatitud(latitud);
         marcador.setLongitud(longitud);
         TemaDAO udbT = new TemaDAO();
+        if(this.tema == null)
+            Mensajes.error("Falta tema");
         Tema temaO = udbT.find(this.tema);
         if(temaO == null){
             this.descripcion ="";
@@ -153,8 +157,8 @@ public class ABMarcadorController {
         marcador.setTema(temaO);
         mdb.save(marcador);
         Mensajes.info("Marcador añadido");
-        datosUtiles = "Sin datos útiles";
+        this.datosUtiles = "Sin datos útiles";
         return ("/informador/AgregarMarcadorTemaIH?faces-redirect=true&tema=" + tema);
     }
-    */
+    
 }
