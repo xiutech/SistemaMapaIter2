@@ -6,6 +6,7 @@
 package com.xiutech.simix.modelo;
 
 import java.util.List;
+import javax.faces.bean.ManagedBean;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -16,6 +17,7 @@ import org.hibernate.Transaction;
  * @author Jose Fernando Reyes Garcia
  * @version 04/04/19
  */
+@ManagedBean    
 public class ComentaristaDAO extends AbstractDAO<Comentarista>{
     
     /**

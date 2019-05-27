@@ -6,6 +6,10 @@
 package com.xiutech.simix.modelo;
 
 import java.util.List;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  * Clase para manejar datos de tabla ATema en la base.
@@ -50,7 +54,7 @@ public class TemaDAO extends AbstractDAO<Tema>{
     
     /**
      * Consulta un Tema en la base.
-     * @param tema El tema a consultar.
+     * @param nombre El tema a consultar.
      * @return  El Tema construido con datos en la base. Null si no existe.
      */
     public Tema find(String nombre){
@@ -64,4 +68,28 @@ public class TemaDAO extends AbstractDAO<Tema>{
     public List<Tema> findAll(){
         return super.findAll(Tema.class);
     }
+    
+    /**
+    public List<Tema> buscaPorInf(String informador) {
+        List<Tema> temas = null;
+        Session session = this.sessionFactory.openSession();
+        Transaction tx = null;
+        try{
+            tx = session.beginTransaction();
+            String hql = "from Tema where correo_informador = :inf";
+            Query query = session.createQuery(hql);
+            query.setParameter("inf", informador);
+            temas = (List<Tema>) query.list();
+            tx.commit();
+            
+        }catch(HibernateException e){
+            if(tx!=null){
+                tx.rollback();
+            }
+            e.printStackTrace();
+        }finally{
+            session.close();
+        }
+        return temas;
+    } */
 }

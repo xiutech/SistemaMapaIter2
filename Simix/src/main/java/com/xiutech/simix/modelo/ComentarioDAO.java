@@ -6,12 +6,14 @@
 package com.xiutech.simix.modelo;
 
 import java.util.List;
+import javax.faces.bean.ManagedBean;
 
 /**
  * Clase para manejar datos de tabla Comentario en la base.
  * @author Jose Fernando Reyes Garcia
  * @version 04/04/19
  */
+@ManagedBean
 public class ComentarioDAO extends AbstractDAO<Comentario>{
     
     /**
