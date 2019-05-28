@@ -10,7 +10,6 @@ import java.util.Set;
  */
 public class Marcador  implements java.io.Serializable {
 
-
      private int idMarcador;
      private Tema tema;
      private double longitud;

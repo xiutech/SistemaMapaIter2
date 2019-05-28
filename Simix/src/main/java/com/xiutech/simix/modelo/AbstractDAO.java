@@ -75,7 +75,7 @@ public abstract class AbstractDAO<T> {
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
-            session.update(obj);
+            session.delete(obj);
             tx.commit();
         }catch(HibernateException e){
             if(tx!=null)

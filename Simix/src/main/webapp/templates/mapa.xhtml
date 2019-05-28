@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -23,17 +19,17 @@ and open the template in the editor.
                     <!-- Columna 1: Datos de marcador-->
                     <h:form>
                         <h:panelGrid  columns="2" cellpadding="10px">
-                            <h:outputText value="Latitud:" />
+                            <h:outputText value="Latitud: " />
                             <h:outputText value="#{verMarcadores.marcadorSeleccionado.latitud}"/>
 
-                            <h:outputText value="Longitud" />
+                            <h:outputText value="Longitud: " />
                             <h:outputText value="#{verMarcadores.marcadorSeleccionado.longitud}"/>
                         </h:panelGrid>
                         <p></p>
-                        <h:outputText value="Descripción:" /><br/>
+                        <h:outputText value="Descripción: " /><br/>
                         <h:outputText value="#{verMarcadores.marcadorSeleccionado.descripcion}"/><br/>
 
-                        <h:outputText value="Datos útiles:" /><br/>
+                        <h:outputText value="Datos útiles: " /><br/>
                         <h:outputText value="#{verMarcadores.marcadorSeleccionado.datosUtiles}"/><br/>
                     </h:form>
                     
@@ -42,15 +38,22 @@ and open the template in the editor.
                     <h:form id="formComentario">
                         <p:scrollPanel style="width:250px;height:150px">
                             <!--Cada elemento de findAll() se identifica con la variable coment-->
-                            <p:dataList value="#{comentarioDAO.findAll()}" var="coment" >
+                            <p:dataList value="#{comentarioDAO.findMarcador(verMarcadores.marcadorSeleccionado.idMarcador)}" var="coment" >
                                 <!--Obtenemos el texto del coment-->
                                 <h:outputText value="#{coment.texto}"/>
+                                
+                                <p:commandButton action="#{aBMComentarioController.eliminaComentario(coment)}" value="Eliminar" update="formComentario" rendered="#{not empty user and user.rol eq 'COMENTARISTA'}"/>
                             </p:dataList>
+                            
                         </p:scrollPanel>
+                        
+                        <h:form rendered="#{not empty user and user.rol eq 'COMENTARISTA'}">
+                            <p:inputTextarea  id="comentario" value="#{aBMComentarioController.texto}" required=" true"  placeholder="Escribe aquí tu cometario" requiredMessage="Por favor ingresa un comentario"/> <br/>
+                            <p:commandButton action="#{aBMComentarioController.agregaComentario(verMarcadores.marcadorSeleccionado)}" value="Añadir comentario" update="formComentario"/>
+                        </h:form>
                         <!--Para agregar comentario. Editar y hacer que funcione-->
-                        <p:inputTextarea id="comentario" value="#{aBMComentarioController.texto}"  required="true" placeholder="Escribe aquí tu cometario" requiredMessage="Por favor ingresa un comentario"/> <br/>
-                        <p:commandButton action="#{aBMComentarioController.agregaComentario()}" value="Añadir comentario" ajax="false"/>
-                    </h:form> 
+                        </h:form> 
+                    
                 </h:panelGrid>
             </p:fieldset>
 
