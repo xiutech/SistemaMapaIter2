@@ -20,7 +20,7 @@ and open the template in the editor.
             <p:fieldset legend="Tema: #{verMarcadores.marcadorSeleccionado.tema.nombre}" style="margin-bottom:20px">
                 <!-- Divide el contenido en dos columnas-->
                 <h:panelGrid  columns="2" cellpadding="10px">
-                    <!-- Columna 1: Datos de marcador-->
+                    
                     <h:form>
                         <h:panelGrid  columns="2" cellpadding="10px">
                             <h:outputText value="Latitud:" />
@@ -35,10 +35,8 @@ and open the template in the editor.
 
                         <h:outputText value="Datos útiles:" /><br/>
                         <h:outputText value="#{verMarcadores.marcadorSeleccionado.datosUtiles}"/><br/>
-                    </h:form>
+                    </h:form>                    
                     
-                    <!-- Columna 2: Lista de Comentarios y textArea junto con boton para agregar-->
-                    <!-- De momento se visualizan todos los comentarios en cada marcador. Por hacer que solo se muestren los del marcador correspondiente.-->
                     <h:form id="formComentario">
                         <p:scrollPanel style="width:250px;height:150px">
                             <!--Cada elemento de findAll() se identifica con la variable coment-->
