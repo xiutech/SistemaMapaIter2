@@ -8,7 +8,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     
     <f:view>
-
+        <f:metadata>
+            <f:viewAction action="#{verMarcadoresTema.verMarcadores(param['tema'])}" />
+        </f:metadata>
         <h:head>
             <title>Tema</title>
             <h:outputStylesheet name="css/estilos.css"/>
@@ -22,7 +24,49 @@
             </header>
                 <main>
                     <section>
-                        
+                        <p:gmap center="23.382390, -102.291477" zoom="5" type="roadmap" id="mapa" model="#{verMarcadoresTema.simpleModel}"    mapTypeControl="false">
+                            <!--El marcador clickeado se guarda en verMarcadores.onMarkerSelect-->
+                            <p:ajax event="overlaySelect" listener="#{verMarcadoresTema.onMarkerSelect}" update="marcadordlg"/> 
+                        </p:gmap>
+                        <!-- Dialogo que despliega información del marcador-->
+                        <p:dialog id="marcadordlg" widgetVar="dlg" modal="true" header="Información del marcador" hideEffect="explode">
+                            <p:fieldset legend="Tema: #{verMarcadoresTema.marcadorSeleccionado.tema.nombre}" style="margin-bottom:20px">
+                                <!-- Divide el contenido en dos columnas-->
+                                <h:panelGrid  columns="2" cellpadding="10px">
+                                    <!-- Columna 1: Datos de marcador-->
+                                    <h:form>
+                                        <h:panelGrid  columns="2" cellpadding="10px">
+                                            <h:outputText value="Latitud:" />
+                                            <h:outputText value="#{verMarcadoresTema.marcadorSeleccionado.latitud}"/>
+
+                                            <h:outputText value="Longitud" />
+                                            <h:outputText value="#{verMarcadoresTema.marcadorSeleccionado.longitud}"/>
+                                        </h:panelGrid>
+                                        <p></p>
+                                        <h:outputText value="Descripción:" /><br/>
+                                        <h:outputText value="#{verMarcadoresTema.marcadorSeleccionado.descripcion}"/><br/>
+
+                                        <h:outputText value="Datos útiles:" /><br/>
+                                        <h:outputText value="#{verMarcadoresTema.marcadorSeleccionado.datosUtiles}"/><br/>
+                                    </h:form>
+
+                                    <!-- Columna 2: Lista de Comentarios y textArea junto con boton para agregar-->
+                                    <!-- De momento se visualizan todos los comentarios en cada marcador. Por hacer que solo se muestren los del marcador correspondiente.-->
+                                    <h:form id="formComentario">
+                                        <p:scrollPanel style="width:250px;height:150px">
+                                            <!--Cada elemento de findAll() se identifica con la variable coment-->
+                                            <p:dataList value="#{comentarioDAO.findAll()}" var="coment" >
+                                                <!--Obtenemos el texto del coment-->
+                                                <h:outputText value="#{coment.texto}"/>
+                                            </p:dataList>
+                                        </p:scrollPanel>
+                                        <!--Para agregar comentario. Editar y hacer que funcione-->
+                                        <p:inputTextarea id="comentario" value="#{aBMComentarioController.texto}"  required="true" placeholder="Escribe aquí tu cometario" requiredMessage="Por favor ingresa un comentario"/> <br/>
+                                        <p:commandButton action="#{aBMComentarioController.agregaComentario()}" value="Añadir comentario" ajax="false"/>
+                                    </h:form> 
+                                </h:panelGrid>
+                            </p:fieldset>
+                        </p:dialog> 
                     </section>
                     
                     <aside>
