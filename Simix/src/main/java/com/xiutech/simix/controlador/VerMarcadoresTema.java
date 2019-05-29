@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -9,8 +9,8 @@ import com.xiutech.simix.modelo.Marcador;
 import com.xiutech.simix.modelo.MarcadorDAO;
 import com.xiutech.simix.modelo.Tema;
 import com.xiutech.simix.modelo.TemaDAO;
+import java.util.List;
 import java.util.Set;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.PrimeFaces;
@@ -29,17 +29,14 @@ import org.primefaces.model.map.Marker;
 public class VerMarcadoresTema {
     private MapModel simpleModel;
     private Marker markerSelected;
-    private Marcador marcadorSeleccionado;
-    private String nombre_tema;
+    private Marcador marcadorSeleccionado;    
     
-    @PostConstruct
-    public void verMarcadores(){
+    public void verMarcadores(String nombre_tema){
         this.setSimpleModel(new DefaultMapModel());
-        TemaDAO temaDAO = new TemaDAO();
-        Tema tema = temaDAO.find(getNombre_tema());
-        Set marcadores = tema.getMarcadors();
-        for(Object o :marcadores){
-            Marcador m = (Marcador)o;
+        MarcadorDAO marcadorDAO = new MarcadorDAO();
+        
+        List<Marcador> marcadores = marcadorDAO.buscaPorTema(nombre_tema);
+        for(Marcador m:marcadores){
             LatLng cord = new LatLng(m.getLatitud(),m.getLongitud());
             Marker mark = new Marker(cord,m.getDescripcion());            
             this.getSimpleModel().addOverlay(mark);
@@ -86,20 +83,6 @@ public class VerMarcadoresTema {
      */
     public void setMarcadorSeleccionado(Marcador marcadorSeleccionado) {
         this.marcadorSeleccionado = marcadorSeleccionado;
-    }
-
-    /**
-     * @return the nombre_tema
-     */
-    public String getNombre_tema() {
-        return nombre_tema;
-    }
-
-    /**
-     * @param nombre_tema the nombre_tema to set
-     */
-    public void setNombre_tema(String nombre_tema) {
-        this.nombre_tema = nombre_tema;
     }
     
     public void onMarkerSelect(OverlaySelectEvent event) {

@@ -9,8 +9,15 @@ import com.xiutech.simix.modelo.Marcador;
 import com.xiutech.simix.modelo.MarcadorDAO;
 import com.xiutech.simix.modelo.Tema;
 import com.xiutech.simix.modelo.TemaDAO;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import org.primefaces.event.map.MarkerDragEvent;
+import org.primefaces.event.map.PointSelectEvent;
+import org.primefaces.model.map.DefaultMapModel;
+import org.primefaces.model.map.LatLng;
+import org.primefaces.model.map.MapModel;
+import org.primefaces.model.map.Marker;
 
 /**
  * Clase controlador dedicada al alta de marcadores.
@@ -25,6 +32,21 @@ public class ABMarcadorController {
     private String descripcion;
     private String datosUtiles = "Sin datos útiles";
     private String tema;
+    private Marker marcador;
+    private MapModel simpleModel;
+    private LatLng centro;
+    
+    
+    @PostConstruct
+    public void init(){
+        this.centro = new LatLng(23.382390, -102.291477);
+        setSimpleModel(new DefaultMapModel());
+        setMarcador(new Marker(centro,"Arrastrame"));
+        getMarcador().setDraggable(true);
+        getSimpleModel().addOverlay(getMarcador());
+        this.latitud = getMarcador().getLatlng().getLat();
+        this.longitud = getMarcador().getLatlng().getLng();
+    }
     
     /**
      * @return the tema
@@ -97,22 +119,78 @@ public class ABMarcadorController {
     }
     
     /**
+     * @return the centro
+     */
+    public LatLng getCentro() {
+        return centro;
+    }
+
+    /**
+     * @param centro the centro to set
+     */
+    public void setCentro(LatLng centro) {
+        this.centro = centro;
+    }
+    
+        /**
+     * @return the marcador
+     */
+    public Marker getMarcador() {
+        return marcador;
+    }
+
+    /**
+     * @param marcador the marcador to set
+     */
+    public void setMarcador(Marker marcador) {
+        this.marcador = marcador;
+    }
+
+    /**
+     * @return the simpleModel
+     */
+    public MapModel getSimpleModel() {
+        return simpleModel;
+    }
+
+    /**
+     * @param simpleModel the simpleModel to set
+     */
+    public void setSimpleModel(MapModel simpleModel) {
+        this.simpleModel = simpleModel;
+    }
+ 
+        public void onMarkerDrag(MarkerDragEvent event){
+        marcador = event.getMarker();
+        this.latitud = marcador.getLatlng().getLat();
+        this.longitud = marcador.getLatlng().getLng();
+    }
+
+    public void onPointSelect(PointSelectEvent event) {
+        LatLng latlng = event.getLatLng();
+        marcador = simpleModel.getMarkers().get(0);
+        marcador.setLatlng(latlng);
+        this.latitud = latlng.getLat();
+        this.longitud = latlng.getLng();
+        this.setCentro(latlng);   
+    }
+    /**
      * Agrega un marcador en la base de datos.
      * @return el url de redireccionamiento, en este caso, para agregar otro marcador.
      */
     public String agregaMarcador(){
         MarcadorDAO mdb =new MarcadorDAO();
-        Marcador marcador = mdb.buscaPorLatLng(latitud, longitud);
-        if(marcador!= null){
+        Marcador marker = mdb.buscaPorLatLng(latitud, longitud);
+        if(marker != null){
             this.descripcion ="";
             Mensajes.error("Ya existe un marcador con estas cordenadas \n" +"Lat: "+this.latitud +" Lng: "+this.longitud);
             return "";
         }
-        marcador = new Marcador();
-        marcador.setDescripcion(descripcion);
-        marcador.setDatosUtiles(datosUtiles);
-        marcador.setLatitud(latitud);
-        marcador.setLongitud(longitud);
+        marker = new Marcador();
+        marker.setDescripcion(descripcion);
+        marker.setDatosUtiles(datosUtiles);
+        marker.setLatitud(latitud);
+        marker.setLongitud(longitud);
         TemaDAO udbT = new TemaDAO();
         Tema temaO = udbT.find(this.tema);
         if(temaO == null){
@@ -120,8 +198,8 @@ public class ABMarcadorController {
             Mensajes.error("El tema no existe");
             return "";
         }
-        marcador.setTema(temaO);
-        mdb.save(marcador);
+        marker.setTema(temaO);
+        mdb.save(marker);
         Mensajes.info("Marcador añadido");
         this.datosUtiles = "Sin datos útiles";
         return "/informador/AgregarMarcadorIH?faces-redirect=true";
@@ -159,6 +237,5 @@ public class ABMarcadorController {
         Mensajes.info("Marcador añadido");
         this.datosUtiles = "Sin datos útiles";
         return ("/informador/AgregarMarcadorTemaIH?faces-redirect=true&tema=" + tema);
-    }
-    
+    }   
 }
