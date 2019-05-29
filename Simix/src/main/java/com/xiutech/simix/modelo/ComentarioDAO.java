@@ -7,6 +7,10 @@ package com.xiutech.simix.modelo;
 
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  * Clase para manejar datos de tabla Comentario en la base.
@@ -66,6 +70,32 @@ public class ComentarioDAO extends AbstractDAO<Comentario>{
     public List<Comentario> findAll(){
         return super.findAll(Comentario.class);
     }
-      
+    
+     /**
+     * Busca los objetos de determinada clase.
+     * @param id_Marcador la clase de objetos a buscar.
+     * @return Una lista de todos los objetos en la clase.
+     */
+    public List<Comentario> findMarcador(int id_Marcador){
+        
+        List<Comentario> obj = null;
+        
+        Session session = this.sessionFactory.openSession();
+        Transaction tx = null;
+        try{
+            tx = session.beginTransaction();
+            String hql = "from Comentario where id_marcador = :id";
+            Query query = session.createQuery(hql);
+            query.setParameter("id", id_Marcador);
+            obj = (List<Comentario>) query.list();
+            tx.commit();
+        }catch(HibernateException e){
+            if(tx != null)
+                tx.rollback();
+        }finally{
+            session.close();
+        }
+        return obj;
+    }
 }
 

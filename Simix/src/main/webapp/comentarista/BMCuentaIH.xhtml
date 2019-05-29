@@ -33,7 +33,9 @@ and open the template in the editor.
                 
                 <aside>
                     <h:form id="form">
-                        <p:inputText  placeholder="#{bMComentaristaController.buscaPorNombre()}" type="text" id="nombre" value="#{bMComentaristaController.nombre}" required="true" requiredMessage="Ingresa un nombre"/><br/>
+                        <!--Se quito el requiered = true, ya tenias que actualizar nombre y contraseña forzosamente -->
+                        <!-- Se modifico por user.nombre para que funcionara -->
+                        <p:inputText  placeholder="#{user.nombre}" type="text" id="nombre" value="#{bMComentaristaController.nombre}" requiredMessage="Ingresa un nombre"/><br/>
                         <p:commandButton action="#{bMComentaristaController.actualizaNombre()}" value="Actualizar nombre" update=""/>
                         
                         <p:password value="#{bMComentaristaController.contrasenia}" required="true" requiredMessage="Ingresa una contraseña" placeholder="Contraseña nueva" /><br/>
@@ -41,8 +43,6 @@ and open the template in the editor.
 
                         <p:commandButton action="#{bMComentaristaController.borrarCuenta()}" value="Borrar Cuenta" update="" styleClass="logout"/>
                     </h:form>
-                    
-                    
                 </aside>
             </main>
             <footer>
