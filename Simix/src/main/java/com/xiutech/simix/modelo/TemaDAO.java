@@ -6,10 +6,6 @@
 package com.xiutech.simix.modelo;
 
 import java.util.List;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  * Clase para manejar datos de tabla ATema en la base.
