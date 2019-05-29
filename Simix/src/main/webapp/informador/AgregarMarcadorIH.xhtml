@@ -22,10 +22,14 @@
             
             <main>
                 <section>
+                    <p:gmap center="#{aBMarcadorController.centro.lat},#{aBMarcadorController.centro.lng}" zoom="5" type="roadmap" id="mapa" model="#{aBMarcadorController.simpleModel}">
+                        <p:ajax event="markerDrag" listener="#{aBMarcadorController.onMarkerDrag}" update="agregaMarcador:longitud agregaMarcador:latitud"/>
+                        <p:ajax event="pointSelect" listener="#{aBMarcadorController.onPointSelect}" update="agregaMarcador:longitud agregaMarcador:latitud"/>
+                    </p:gmap>
                 </section>
                 
                 <aside>
-                    <p:messages id="messages" closable="true" showDetail="true">
+                    <p:messages id="messages" closable="true" showDetail="true" >
                             <p:autoUpdate />
                     </p:messages>
                     <h:form id="agregaMarcador">
@@ -34,25 +38,29 @@
                         
                         <p>Tema</p>
                         <p:inputText id="tema" placeholder="Tema" value="#{aBMarcadorController.tema}" required="true" requiredMessage="Indica el tema al que será agregado el marcador"/>
-                        
-                        <p>Latitud</p>
-                        <p:inputNumber  decimalPlaces="4" id="latitud" value="#{aBMarcadorController.latitud}" />
-                        
-                        <p>Longitud</p>
-                        <p:inputNumber id="longitud" decimalPlaces="4" value="#{aBMarcadorController.longitud}"/>
+                            
+                        <h:panelGrid  columns="2" cellpadding="10px">                            
+                            <p>Latitud</p>
+                            <p:inputNumber  decimalPlaces="6" id="latitud" value="#{aBMarcadorController.latitud}" disabled="true" size="10"/>
+
+                            <p>Longitud</p>
+                            <p:inputNumber id="longitud" decimalPlaces="6" value="#{aBMarcadorController.longitud}" disabled="true" size="10"/>
+                        </h:panelGrid>
                         
                         <p>Descripción</p>
-                        <p:inputTextarea id="descripcion" placeholder="Añade una breve descripción del marcador" value="${aBMarcadorController.descripcion}" required="true" requiredMessage="Es necesaria una descripción sobre el marcador"/>
+                        <p:inputTextarea id="descripcion" placeholder="Añade una breve descripción del marcador" value="${aBMarcadorController.descripcion}" required="true" requiredMessage="Es necesaria una descripción sobre el marcador" autoResize="false"/>
                         
                         <p>Datos Útiles</p>
-                        <p:inputTextarea id="datosUtiles" placeholder="Agrega datos útiles sobre este marcador, como detalles, estadísticas, etc..." value="${aBMarcadorController.datosUtiles}"/>  
+                        <p:inputTextarea id="datosUtiles" placeholder="Agrega datos útiles sobre este marcador, como detalles, estadísticas, etc..." value="${aBMarcadorController.datosUtiles}" autoResize="false"/>  
                         
                         <p:commandButton id="agregar" value="Agregar Marcador" action="#{aBMarcadorController.agregaMarcador()}"/>
-                        <p:commandButton id="cancelar" value="Cancelar" action="/informador/PerfilInformadorIH?faces-redirect=true" styleClass="logout"/>
                     </h:form>
-                    <UL>
-                        <LI><a href="PerfilInformadorIH.xhtml">Pagina Principal</a></LI>
-                    </UL>
+                    <br/>
+                    <h:form>
+                        <p:commandButton id="cancelar" value="Cancelar" action="/informador/PerfilInformadorIH?faces-redirect=true" styleClass="logout"/>
+                    </h:form>                    
+                        
+                    
                 </aside>
             </main>
             

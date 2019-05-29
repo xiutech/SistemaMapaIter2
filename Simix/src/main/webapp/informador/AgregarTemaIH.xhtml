@@ -28,20 +28,26 @@
                 </section>
                 
                 <aside>
-                    <h1>Tema</h1>
+                    <h3>Agrega un tema al sistema</h3><br/>
                     
-                    <h:form>
+                    <h:form id="altaTema">
                         <p:messages id="messages" closable="true">
-                            <p:autoUpdate />
+                            <p:autoUpdate/>
                         </p:messages>
-                        <p:inputText type="text" id="nombre_tema" value="#{aBTemaController.nombre}" required="true" placeholder="Nombre Tema"  requiredMessage="Debes ingresar un nombre al tema"/>
+                        
+                        <h:outputText value="Añade un nuevo tema al sistema para compartirlo con el resto del mundo"/><br/><br/>
+                        <p:inputText type="text" id="nombre_tema" value="#{aBTemaController.nombre}" required="true" placeholder="Nombre Tema"  requiredMessage="Debes ingresar un nombre al tema"/><br/><br/>
+                        
+                        <h:outputText value="Escoge un color para reconocer tus marcadores"/><br/><br/>
+                        <p:colorPicker value="#{aBTemaController.color}" /><br/><br/>
+                        
                         <!--Válidar nombre de tema, caracteres válidos-->
-                        <p:commandButton action="#{aBTemaController.agregaTema()}" value="Agregar Tema"/>
+                        <p:commandButton action="#{aBTemaController.agregaTema()}" value="Agregar Tema" update="altaTema"/><br/><br/>
                     </h:form>
                     
-                    <UL>
-                        <LI><a href="/informador/PerfilInformadorIH.xhtml">Pagina Principal</a></LI>
-                    </UL>
+                    <br/>
+                    <a href="PerfilInformadorIH.xhtml">Volver a tu perfil</a>
+                    
                 </aside>
             </main>
             <footer>
