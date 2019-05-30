@@ -13,6 +13,13 @@
             </script>
             <h:form>
                 <p:menubar id="menubar"  styleClass="menu">
+                   <f:facet name="options">
+                        <h:form id="busqueda">
+                            <p:message for="search"/>
+                            <p:inputText type="search" id="search" value="#{buscaPorNombre.nombre}" required="true" requiredMessage="No hay personas sin nombre"/>
+                            <p:commandButton action="#{buscaPorNombre.buscaPorNombre()}" value="BuscaPorNombre" update="busqueda"/>
+                        </h:form>
+                    </f:facet>
                     <p:menuitem value="SIMIX" styleClass="menuitem" action="/index?faces-redirect=true"/>
                     <p:menuitem value="#{user.nombre}" url="/administrador/PerfilAdministradorIH.xhtml" styleClass="menuitem" rendered="#{not empty user and user.rol eq 'ADMINISTRADOR'}"/>
                     <p:menuitem value="#{user.nombre}" url="/comentarista/PerfilComentaristaIH.xhtml" styleClass="menuitem" rendered="#{not empty user and user.rol eq 'COMENTARISTA'}"/>
