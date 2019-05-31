@@ -57,7 +57,7 @@ CREATE TABLE comentario(
 
 CREATE TABLE calificacion(
 	calificacion integer NOT NULL,
-	FOREIGN KEY (id_marcador, correo_comentarista) REFERENCES comentario (id_marcador, correo_comentarista), 
+	FOREIGN KEY (id_marcador, correo_comentarista) REFERENCES comentario (id_marcador, correo_comentarista) ON DELETE CASCADE, 
 	correo_calificador text REFERENCES comentarista (correo),
 	id_marcador integer NOT NULL,
 	correo_comentarista text NOT NULL,
