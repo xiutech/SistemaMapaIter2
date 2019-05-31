@@ -35,9 +35,11 @@ public class VerMarcadores {
         setSimpleModel(new DefaultMapModel());
         MarcadorDAO marcadorDAO = new MarcadorDAO();
         List<Marcador> marcadores = marcadorDAO.findAll();
+        
         for(Marcador m :marcadores){
             LatLng cord = new LatLng(m.getLatitud(),m.getLongitud());
             Marker marcador = new Marker(cord,m.getDescripcion());
+            marcador.setIcon("resources/images/" + m.getTema().getNombre() + ".svg");
             getSimpleModel().addOverlay(marcador);
         }
         

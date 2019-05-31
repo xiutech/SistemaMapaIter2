@@ -1,12 +1,19 @@
 package com.xiutech.simix.modelo;
 
+import java.util.LinkedList;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  * Clase para manejar datos de tabla ATema en la base.
  * @author Jose Fernando Reyes Garcia
  * @version 04/04/19
  */
+@ManagedBean
 public class TemaDAO extends AbstractDAO<Tema>{
     
     /**
@@ -60,27 +67,37 @@ public class TemaDAO extends AbstractDAO<Tema>{
         return super.findAll(Tema.class);
     }
     
-    /**
-    public List<Tema> buscaPorInf(String informador) {
-        List<Tema> temas = null;
+    public List<String> parecidos(String tema_buscado){
+        List<Tema> obj = null;
+        List<String> nombres = new LinkedList<>();
         Session session = this.sessionFactory.openSession();
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
-            String hql = "from Tema where correo_informador = :inf";
+            String hql = "from Tema where nombre like ':tema%'";
             Query query = session.createQuery(hql);
-            query.setParameter("inf", informador);
-            temas = (List<Tema>) query.list();
+            query.setParameter("tema", tema_buscado);
+            obj = (List<Tema>) query.list();
+            for(Tema t: obj){
+            nombres.add(t.getNombre());
+        }
             tx.commit();
-            
         }catch(HibernateException e){
-            if(tx!=null){
+            if(tx != null)
                 tx.rollback();
-            }
-            e.printStackTrace();
         }finally{
             session.close();
         }
-        return temas;
-    } */
+        return nombres;
+    }
+    
+    
+    public List<String> todosLosTemas(){
+        List<Tema> temas = this.findAll();
+        List<String> nombres = new LinkedList<>();
+        for(Tema t: temas){
+            nombres.add(t.getNombre());
+        }
+        return nombres;
+    }
 }

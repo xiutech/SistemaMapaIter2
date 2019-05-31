@@ -34,7 +34,7 @@
                 
                 <aside>
                     <h:form id="agregaMarcador">
-                        <p:messages id="messages" closable="true">
+                        <p:messages id="messages" closable="true" showDetail="true">
                             <p:autoUpdate />
                         </p:messages>
                         <h1> Marcador</h1>
@@ -44,25 +44,25 @@
                             
                         <h:panelGrid  columns="2" cellpadding="10px">
                             <p>Latitud</p>
-                            <p:inputNumber decimalPlaces="4" id="latitud" value="#{aBMarcadorController.latitud}" disabled="true" size="10"/>
+                            <p:inputNumber decimalPlaces="6" id="latitud" value="#{aBMarcadorController.latitud}" disabled="true" size="10"/>
 
                             <p>Longitud</p>
-                            <p:inputNumber id="longitud" decimalPlaces="4" value="#{aBMarcadorController.longitud}" disabled="true" size="10"/>
+                            <p:inputNumber id="longitud" decimalPlaces="6" value="#{aBMarcadorController.longitud}" disabled="true" size="10"/>
                         </h:panelGrid>
                         
                         <p>Descripción</p>
                         <p:inputTextarea id="descripcion" placeholder="Añade una breve descripción del marcador" value="${aBMarcadorController.descripcion}" required="true" requiredMessage="Es necesaria una descripción sobre el marcador" autoResize="false"/>
                         
                         <p>Datos Útiles</p>
-                        <p:inputTextarea id="datosUtiles" placeholder="Agrega datos útiles sobre este marcador, como detalles, estadísticas, etc..." value="${aBMarcadorController.datosUtiles}" autoResize="false"/>
+                        <p:inputTextarea id="datosUtiles" placeholder="Agrega datos útiles sobre este marcador, como detalles, estadísticas, etc..." value="${aBMarcadorController.datosUtiles}" autoResize="false" />
                         
-                        <p:commandButton id="agrega" value="Agregar Marcador" action="#{aBMarcadorController.agregaMarcadorTema()}"/>                        
+                        <p:commandButton id="agrega" value="Agregar Marcador" action="#{aBMarcadorController.agregaMarcadorTema()}" update="agregaMarcador"/> 
                     </h:form>
                     
                     <br/>
                     
                     <h:form>
-                        <p:commandButton id="finaliza" value="Finalizar" action="/informador/PerfilInformadorIH?faces-redirect=true" rendered="#{not marcadorDAO.buscaPorTema(param['tema']).isEmpty()}"/>
+                        <p:commandButton id="finaliza" value="Finalizar" action="/informador/PerfilInformadorIH?faces-redirect=true" rendered="#{not marcadorDAO.buscaPorTema(param['tema']).isEmpty()}" update="agregaMarcador"/>
                     </h:form>
                     
                 </aside>

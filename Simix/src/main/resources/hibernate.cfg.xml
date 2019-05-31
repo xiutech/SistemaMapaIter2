@@ -47,6 +47,7 @@ Contributor(s):
     <property name="hibernate.connection.username">simix_administrator</property>
     <property name="hibernate.connection.password">simixadmin</property>
     <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.enable_lazy_load_no_trans">true</property>
     <property name="hibernate.current_session_context_class">thread</property>
     <mapping resource="com/xiutech/simix/modelo/Administrador.hbm.xml"/>
     <mapping resource="com/xiutech/simix/modelo/Calificacion.hbm.xml"/>

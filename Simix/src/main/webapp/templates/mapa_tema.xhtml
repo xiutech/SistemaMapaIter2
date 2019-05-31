@@ -11,8 +11,7 @@ and open the template in the editor.
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     
-    <f:view>
-        
+    <f:view>        
         <body>
             <p:gmap center="23.382390, -102.291477" zoom="5" type="roadmap" id="mapa" model="#{verMarcadoresTema.simpleModel}"    mapTypeControl="false">
                 <!--El marcador clickeado se guarda en verMarcadores.onMarkerSelect-->
@@ -21,40 +20,48 @@ and open the template in the editor.
             <!-- Dialogo que despliega información del marcador-->
             <p:dialog id="marcadordlg" widgetVar="dlg" modal="true" header="Información del marcador" hideEffect="explode">
                 <p:fieldset legend="Tema: #{verMarcadoresTema.marcadorSeleccionado.tema.nombre}" style="margin-bottom:20px">
-                    <!-- Divide el contenido en dos columnas-->
+                    <h:form>
                     <h:panelGrid  columns="2" cellpadding="10px">
-                        <!-- Columna 1: Datos de marcador-->
-                        <h:form>
-                            <h:panelGrid  columns="2" cellpadding="10px">
-                                <h:outputText value="Latitud:" />
-                                <h:outputText value="#{verMarcadoresTema.marcadorSeleccionado.latitud}"/>
+                        <h:outputText value="Latitud: " style="font-weight: bold"/>
+                        <h:outputText value="#{verMarcadoresTema.marcadorSeleccionado.latitud}"/>
 
-                                <h:outputText value="Longitud" />
-                                <h:outputText value="#{verMarcadoresTema.marcadorSeleccionado.longitud}"/>
-                            </h:panelGrid>
-                            <p></p>
-                            <h:outputText value="Descripción:" /><br/>
-                            <h:outputText value="#{verMarcadoresTema.marcadorSeleccionado.descripcion}"/><br/>
-
-                            <h:outputText value="Datos útiles:" /><br/>
-                            <h:outputText value="#{verMarcadoresTema.marcadorSeleccionado.datosUtiles}"/><br/>
-                        </h:form>
-
-                        <!-- Columna 2: Lista de Comentarios y textArea junto con boton para agregar-->
-                        <!-- De momento se visualizan todos los comentarios en cada marcador. Por hacer que solo se muestren los del marcador correspondiente.-->
-                        <h:form id="formComentario">
-                            <p:scrollPanel style="width:250px;height:150px">
-                                <!--Cada elemento de findAll() se identifica con la variable coment-->
-                                <p:dataList value="#{comentarioDAO.findAll()}" var="coment" >
-                                    <!--Obtenemos el texto del coment-->
-                                    <h:outputText value="#{coment.texto}"/>
-                                </p:dataList>
-                            </p:scrollPanel>
-                            <!--Para agregar comentario. Editar y hacer que funcione-->
-                            <p:inputTextarea id="comentario" value="#{aBMComentarioController.texto}"  required="true" placeholder="Escribe aquí tu cometario" requiredMessage="Por favor ingresa un comentario"/> <br/>
-                            <p:commandButton action="#{aBMComentarioController.agregaComentario()}" value="Añadir comentario" ajax="false"/>
-                        </h:form> 
+                        <h:outputText value="Longitud: " style="font-weight: bold"/>
+                        <h:outputText value="#{verMarcadoresTema.marcadorSeleccionado.longitud}"/>
                     </h:panelGrid>
+                    <p></p>
+                    <h:outputText value="Descripción: " style="font-weight: bold"/><br/>
+                    <h:outputText value="#{verMarcadoresTema.marcadorSeleccionado.descripcion}"/><br/>
+
+                    <h:outputText value="Datos útiles: " style="font-weight: bold"/><br/>
+                    <h:outputText value="#{verMarcadoresTema.marcadorSeleccionado.datosUtiles}"/><br/>
+                </h:form>                    
+                    
+                <h:form id="formComentario" >
+                    <p:scrollPanel style="width:450px;height:150px">
+                        <p:dataList value="#{comentarioDAO.findMarcador(verMarcadoresTema.marcadorSeleccionado.idMarcador)}" var="coment" emptyMessage="Este marcador no tiene comentarios. Sé el primero en agregar uno" >
+                            <!--Obtenemos el texto del coment-->
+                            <h:outputText value="#{coment.comentarista.nombre}" style="font-size: 16px; font-weight: bold; border-color: black"/><br/>
+                            <h:outputText value="#{coment.texto} "/><br/>
+
+                            <p:menuButton value="Opciones" rendered="#{not empty user and user.rol eq 'COMENTARISTA'}" style="float: right; size: ledger" >
+                                <p:menuitem value="Edita" action="#{aBMComentarioController.setTexto(coment.texto)}" update="formComentario" rendered="#{coment.comentarista.correo eq user.correo}"/>
+                                <p:menuitem value="Eliminar" action="#{aBMComentarioController.eliminaComentario(coment)}" update="formComentario" rendered="#{coment.comentarista.correo eq user.correo}"/>
+                                <p:menuitem value="Like" action="#{calificarComentarioController.calificaComentario(1, coment)}" disabled="#{calificacionDAO.estaCalificado(coment, user.getCorreo())}" update="formComentario"/>
+                                <p:menuitem value="Dislike" action="#{calificarComentarioController.calificaComentario((-1), coment)}" disabled="#{calificacionDAO.estaCalificado(coment, user.getCorreo())}" update="formComentario"/>
+                            </p:menuButton><br/>
+
+                            <h:outputText value="Likes: #{calificarComentarioController.getLikes(coment)}  " style="font-size: 14px"/>
+                            <h:outputText value="Dislikes: #{calificarComentarioController.getDislikes(coment)}" style="font-size: 14px"/>
+                        </p:dataList>
+                    </p:scrollPanel>
+
+                    <h:form id="formComent" rendered="#{not empty user and user.rol eq 'COMENTARISTA'}" style="align-content: center">
+                        <p:inputTextarea  id="comentario" value="#{aBMComentarioController.texto}" required=" true"  placeholder="Escribe aquí tu comentario" requiredMessage="Por favor ingresa un comentario" style="width:450px" autoResize="false" /> <br/>
+                        <p:commandButton action="#{aBMComentarioController.agregaComentario(verMarcadoresTema.marcadorSeleccionado)}" value="Añadir comentario" update="formComentario"/>                        
+                        <p:commandButton action="#{aBMComentarioController.editarComentario(verMarcadoresTema.marcadorSeleccionado)}" value="Editar comentario" update="formComentario" />
+                    </h:form>
+                    
+                </h:form>
                 </p:fieldset>
 
             </p:dialog> 

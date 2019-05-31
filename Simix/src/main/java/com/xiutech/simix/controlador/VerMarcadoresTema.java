@@ -30,15 +30,18 @@ public class VerMarcadoresTema {
     private MapModel simpleModel;
     private Marker markerSelected;
     private Marcador marcadorSeleccionado;    
+    private Tema tema;
     
     public void verMarcadores(String nombre_tema){
         this.setSimpleModel(new DefaultMapModel());
+        this.setTema(new TemaDAO().find(nombre_tema));
         MarcadorDAO marcadorDAO = new MarcadorDAO();
         
         List<Marcador> marcadores = marcadorDAO.buscaPorTema(nombre_tema);
         for(Marcador m:marcadores){
             LatLng cord = new LatLng(m.getLatitud(),m.getLongitud());
-            Marker mark = new Marker(cord,m.getDescripcion());            
+            Marker mark = new Marker(cord,m.getDescripcion());
+            mark.setIcon("../resources/images/" + m.getTema().getNombre() + ".svg");
             this.getSimpleModel().addOverlay(mark);
         }    
     }
@@ -91,5 +94,19 @@ public class VerMarcadoresTema {
        this.marcadorSeleccionado = mDAO.buscaPorLatLng(markerSelected.getLatlng().getLat(), markerSelected.getLatlng().getLng());
        PrimeFaces current = PrimeFaces.current();
        current.executeScript("PF('dlg').show();");  
+    }
+
+    /**
+     * @return the tema
+     */
+    public Tema getTema() {
+        return tema;
+    }
+
+    /**
+     * @param tema the tema to set
+     */
+    public void setTema(Tema tema) {
+        this.tema = tema;
     }
 }

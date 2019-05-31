@@ -13,46 +13,49 @@
         </p:gmap>
         <!-- Dialogo que despliega información del marcador-->
         <p:dialog id="marcadordlg" widgetVar="dlg" modal="true" header="Información del marcador" hideEffect="explode">
-            <p:fieldset legend="Tema: #{verMarcadores.marcadorSeleccionado.tema.nombre}" style="margin-bottom:20px">
-                <!-- Divide el contenido en dos columnas-->
-                <h:panelGrid  columns="2" cellpadding="10px">
-                    
-                    <h:form>
-                        <h:panelGrid  columns="2" cellpadding="10px">
-                            <h:outputText value="Latitud: " />
-                            <h:outputText value="#{verMarcadores.marcadorSeleccionado.latitud}"/>
+            <p:fieldset legend="Tema: #{verMarcadores.marcadorSeleccionado.tema.nombre}" style="margin-bottom:20px">    
+                <h:form>
+                    <h:panelGrid  columns="2" cellpadding="10px">
+                        <h:outputText value="Latitud: " style="font-weight: bold"/>
+                        <h:outputText value="#{verMarcadores.marcadorSeleccionado.latitud}"/>
 
-                            <h:outputText value="Longitud: " />
-                            <h:outputText value="#{verMarcadores.marcadorSeleccionado.longitud}"/>
-                        </h:panelGrid>
-                        <p></p>
-                        <h:outputText value="Descripción: " /><br/>
-                        <h:outputText value="#{verMarcadores.marcadorSeleccionado.descripcion}"/><br/>
+                        <h:outputText value="Longitud: " style="font-weight: bold"/>
+                        <h:outputText value="#{verMarcadores.marcadorSeleccionado.longitud}"/>
+                    </h:panelGrid>
+                    <p></p>
+                    <h:outputText value="Descripción: " style="font-weight: bold"/><br/>
+                    <h:outputText value="#{verMarcadores.marcadorSeleccionado.descripcion}"/><br/>
 
-                        <h:outputText value="Datos útiles: " /><br/>
-                        <h:outputText value="#{verMarcadores.marcadorSeleccionado.datosUtiles}"/><br/>
-                    </h:form>                    
+                    <h:outputText value="Datos útiles: " style="font-weight: bold"/><br/>
+                    <h:outputText value="#{verMarcadores.marcadorSeleccionado.datosUtiles}"/><br/>
+                </h:form>                    
                     
-                    <h:form id="formComentario">
-                        <p:scrollPanel style="width:250px;height:150px">
-                            <!--Cada elemento de findAll() se identifica con la variable coment-->
-                            <p:dataList value="#{comentarioDAO.findMarcador(verMarcadores.marcadorSeleccionado.idMarcador)}" var="coment" >
-                                <!--Obtenemos el texto del coment-->
-                                <h:outputText value="#{coment.texto}"/>
-                                
-                                <p:commandButton action="#{aBMComentarioController.eliminaComentario(coment)}" value="Eliminar" update="formComentario" rendered="#{not empty user and user.rol eq 'COMENTARISTA'}"/>
-                            </p:dataList>
-                            
-                        </p:scrollPanel>
-                        
-                        <h:form rendered="#{not empty user and user.rol eq 'COMENTARISTA'}">
-                            <p:inputTextarea  id="comentario" value="#{aBMComentarioController.texto}" required=" true"  placeholder="Escribe aquí tu cometario" requiredMessage="Por favor ingresa un comentario"/> <br/>
-                            <p:commandButton action="#{aBMComentarioController.agregaComentario(verMarcadores.marcadorSeleccionado)}" value="Añadir comentario" update="formComentario"/>
-                        </h:form>
-                        <!--Para agregar comentario. Editar y hacer que funcione-->
-                        </h:form> 
-                    
-                </h:panelGrid>
+                <h:form id="formComentario" >
+                    <p:scrollPanel style="width:450px;height:150px">
+                        <p:dataList value="#{comentarioDAO.findMarcador(verMarcadores.marcadorSeleccionado.idMarcador)}" var="coment" emptyMessage="Este marcador no tiene comentarios. Sé el primero en agregar uno" >
+                            <!--Obtenemos el texto del coment-->
+                            <h:outputText value="#{coment.comentarista.nombre}" style="font-size: 16px; font-weight: bold; border-color: black"/><br/>
+                            <h:outputText value="#{coment.texto} "/><br/>
+
+                            <p:menuButton value="Opciones" rendered="#{not empty user and user.rol eq 'COMENTARISTA'}" style="float: right; size: ledger" >
+                                <p:menuitem value="Edita" action="#{aBMComentarioController.setTexto(coment.texto)}" update="formComentario" rendered="#{coment.comentarista.correo eq user.correo}"/>
+                                <p:menuitem value="Eliminar" action="#{aBMComentarioController.eliminaComentario(coment)}" update="formComentario" rendered="#{coment.comentarista.correo eq user.correo}"/>
+                                <p:menuitem value="Like" action="#{calificarComentarioController.calificaComentario(1, coment)}" disabled="#{calificacionDAO.estaCalificado(coment, user.getCorreo())}" update="formComentario"/>
+                                <p:menuitem value="Dislike" action="#{calificarComentarioController.calificaComentario((-1), coment)}" disabled="#{calificacionDAO.estaCalificado(coment, user.getCorreo())}" update="formComentario"/>
+                            </p:menuButton><br/>
+
+                            <h:outputText value="Likes: #{calificarComentarioController.getLikes(coment)}  " style="font-size: 14px"/>
+                            <h:outputText value="Dislikes: #{calificarComentarioController.getDislikes(coment)}" style="font-size: 14px"/>
+                        </p:dataList>
+                    </p:scrollPanel>
+
+                    <h:form id="formComent" rendered="#{not empty user and user.rol eq 'COMENTARISTA'}" style="align-content: center">
+                        <p:inputTextarea  id="comentario" value="#{aBMComentarioController.texto}" required=" true"  placeholder="Escribe aquí tu comentario" requiredMessage="Por favor ingresa un comentario" style="width:450px" autoResize="false" /> <br/>
+                        <p:commandButton action="#{aBMComentarioController.agregaComentario(verMarcadores.marcadorSeleccionado)}" value="Añadir comentario" update="formComentario"/>
+                        <p:commandButton action="#{aBMComentarioController.editarComentario(verMarcadores.marcadorSeleccionado)}" value="Editar comentario" update="formComentario" />
+                    </h:form>
+
+                </h:form> 
             </p:fieldset>
 
         </p:dialog> 

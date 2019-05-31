@@ -83,7 +83,7 @@ public class SessionController implements Serializable{
             return "/informador/PerfilInformadorIH?faces-redirect=true";
         }
         
-        Mensajes.error("NO hay usuarios con este correo"+this.getCorreo());
+        Mensajes.error("Correo o contraseña inválidos");
         return "";
         
     }

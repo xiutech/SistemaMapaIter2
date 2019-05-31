@@ -20,7 +20,7 @@ public class Mensajes {
      * @param info el mensaje a mostrar
      */
     public static void info(String info) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", info));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, info, ""));
     }
     
     /**
@@ -28,7 +28,7 @@ public class Mensajes {
      * @param warn el mensaje a mostrar
      */
     public static void warn(String warn) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", warn));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, warn, ""));
     }
      
     /**
@@ -36,14 +36,14 @@ public class Mensajes {
      * @param error el mensaje a mostrar
      */
     public static void error(String error) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", error));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, error, ""));
     }
      
     /**
      * Muestra un mensaje de error fatal.
-     * @param error el mensaje a mostrar
+     * @param fatal el mensaje a mostrar
      */
     public static void fatal(String fatal) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal!", fatal));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, fatal, ""));
     }
 }

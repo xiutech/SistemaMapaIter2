@@ -85,7 +85,7 @@ public class RegistrarseController {
             //correo encriptado en base64
             String codigo = new String(Base64.encodeBase64(getCorreo().getBytes()));
             // link de activacion que enviara al comentarista
-            String link = "http://localhost:8084/Simix/ActivarCuentaIH.xhtml?faces-redirect=true&codigo=" + codigo;
+            String link = "http://localhost:8084/Simix/general/ActivarCuentaIH.xhtml?faces-redirect=true&codigo=" + codigo;
             Comentarista c = new Comentarista();
             c.setNombre(this.getNombre());
             c.setCorreo(this.getCorreo());
@@ -121,7 +121,7 @@ public class RegistrarseController {
             String CLIENT_SECRET = "";
             String REFRESH_TOKEN = "";
             //String FROM_USER_ACCESSTOKEN = em.getAccessTokenFromRefreshToken(CLIENT_ID,CLIENT_SECRET, REFRESH_TOKEN);
-            String FROM_USER_ACCESSTOKEN = "ya29.GlzmBuTKgxcATYYVNkJNtaepzsZZ4A_Kow5V9J2taYsEJwEtv_LjUDupYUZoiymszUQoSQt8--jkB0aCgT_QqcyLqLOzNTcKEGaPfLPw7R-GR646W75hFvTWtySj_A";
+            String FROM_USER_ACCESSTOKEN = "ya29.Gl0ZB8M3AxLHZHMl4zEZw1w1Kg6NXSphP_coZLl8D2uo60dJ75nMLvbeR9IYmIga6nxS2UtYQ-sCBlrbQyTFr5XBF2E3laRG52PTOcb-5KURH8bl8GueL216VHWoLLo";
             String TO_USER_EMAIL = this.getCorreo();
             em.sendMail(SMTP_SERVER_HOST, SMTP_SERVER_PORT, FROM_USER_EMAIL, FROM_USER_ACCESSTOKEN, FROM_USER_EMAIL, FROM_USER_FULLNAME, TO_USER_EMAIL, SUBJECT, BODY);
 

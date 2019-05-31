@@ -78,7 +78,7 @@ public class ABTemaController {
         tema = new Tema(nombre, this.color);
         tema.setInformador(informador);
         udbT.save(tema);
-        //creaIcono(50,50);
+        creaIcono(50,50);
         return ("/informador/AgregarMarcadorTemaIH?faces-redirect=true&tema=" + nombre);
     }    
     /**

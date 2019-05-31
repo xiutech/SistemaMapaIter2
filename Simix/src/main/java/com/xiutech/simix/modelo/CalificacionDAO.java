@@ -6,12 +6,18 @@
 package com.xiutech.simix.modelo;
 
 import java.util.List;
+import javax.faces.bean.ManagedBean;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  * Clase para manejar datos de tabla Calificacion en la base.
  * @author Jose Fernando Reyes Garcia
  * @version 04/04/19
  */
+@ManagedBean
 public class CalificacionDAO extends AbstractDAO<Calificacion>{
       
     /**
@@ -26,7 +32,7 @@ public class CalificacionDAO extends AbstractDAO<Calificacion>{
      * @param calificacion la Calificacion a agregar.
      */
     @Override
-    protected void save(Calificacion calificacion){
+    public void save(Calificacion calificacion){
         super.save(calificacion);
     }
     
@@ -35,7 +41,7 @@ public class CalificacionDAO extends AbstractDAO<Calificacion>{
      * @param calificacion la Calificacion a actualizar.
      */
     @Override
-    protected void update(Calificacion calificacion){
+    public void update(Calificacion calificacion){
         super.update(calificacion);
     }
     
@@ -44,7 +50,7 @@ public class CalificacionDAO extends AbstractDAO<Calificacion>{
      * @param calificacion la Calificacion eliminar.
      */
     @Override
-    protected void delete(Calificacion calificacion){
+    public void delete(Calificacion calificacion){
         super.delete(calificacion);
     }
     
@@ -53,7 +59,7 @@ public class CalificacionDAO extends AbstractDAO<Calificacion>{
      * @param id el identificador de la Calificacion.
      * @return la Calificacion, null si no está.
      */
-    protected Calificacion find(CalificacionId id){
+    public Calificacion find(CalificacionId id){
         return super.find(Calificacion.class, id);
     }
     
@@ -61,9 +67,37 @@ public class CalificacionDAO extends AbstractDAO<Calificacion>{
      * Busca todas las calificaciones en la base.
      * @return Una lista de todas las calificaciones en la base.
      */
-    protected List<Calificacion> findAll(){
+    public List<Calificacion> findAll(){
         return super.findAll(Calificacion.class);
     }
-      
+    
+    public boolean estaCalificado(Comentario coment, String comentarista){
+        CalificacionId id = new CalificacionId();
+        id.setCorreoCalificador(comentarista);
+        id.setCorreoComentarista(coment.getComentarista().getCorreo());
+        id.setIdMarcador(coment.getMarcador().getIdMarcador());
+        return (find(id) != null);
+    }
+    
+    public List<Calificacion> buscaPorComentario(Comentario coment){
+        List<Calificacion> obj = null;
+        Session session = this.sessionFactory.openSession();
+        Transaction tx = null;
+        try{
+            tx = session.beginTransaction();
+            String hql = "from Calificacion where correo_comentarista = :mail and id_marcador = :id";
+            Query query = session.createQuery(hql);
+            query.setParameter("mail", coment.getComentarista().getCorreo());
+            query.setParameter("id", coment.getMarcador().getIdMarcador());
+            obj = (List<Calificacion>) query.list();
+            tx.commit();
+        }catch(HibernateException e){
+            if(tx != null)
+                tx.rollback();
+        }finally{
+            session.close();
+        }
+        return obj;
+    }
 }
 

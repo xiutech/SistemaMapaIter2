@@ -3,7 +3,7 @@ package com.xiutech.simix.controlador;
 import com.xiutech.simix.modelo.Comentarista;
 import com.xiutech.simix.modelo.ComentaristaDAO;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 
@@ -15,7 +15,7 @@ import javax.faces.context.FacesContext;
  */
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class BMComentaristaController {
     private String nombre;
     private String correo;
@@ -63,28 +63,24 @@ public class BMComentaristaController {
         this.contrasenia = contrasenia;
     }
     
-    /**
-     * Actualiza el nombre del comentarista loggeado.
-     * @return el url de redireccionamiento, en este caso, el perfil del comentarista.
-     */
-    public String actualizaNombre() {
-        SessionController.UserLogged ul = (SessionController.UserLogged) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-        ComentaristaDAO cdb = new ComentaristaDAO();
-        Comentarista comen = cdb.find(ul.getCorreo());
-        comen.setNombre(this.getNombre());
-        cdb.update(comen);
-        return "/comentarista/PerfilComentaristaIH?faces-redirect=true";
-    }
+  
     
     /**
-     * Actualiza la contraseña del comentarista loggeado.
+     * Actualiza la contraseña y el nombre del comentarista loggeado.
      * @return el url de redireccionamiento, en este caso, el perfil del comentarista.
      */
-    public String actualizaContrasenia() {
-        SessionController.UserLogged ul = (SessionController.UserLogged) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
+    public String actualizaCuentaComen(){
         ComentaristaDAO cdb = new ComentaristaDAO();
-        Comentarista comen = cdb.find(ul.getCorreo());
-        comen.setContrasenia(this.getContrasenia());
+        SessionController.UserLogged ul = (SessionController.UserLogged) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
+        Comentarista comen = cdb.buscaPorCorreo(ul.getCorreo());
+        if(contrasenia==""){
+            contrasenia=comen.getContrasenia();
+        }
+        if(nombre==""){
+            nombre=comen.getNombre();
+        }       
+        comen.setContrasenia(contrasenia);
+        comen.setNombre(nombre);
         cdb.update(comen);
         return "/comentarista/PerfilComentaristaIH?faces-redirect=true";
     }
@@ -94,10 +90,13 @@ public class BMComentaristaController {
      * @return el url de redireccionamiento, en este caso, la página principal (el index).
      */
     public String borrarCuenta() {
-        SessionController.UserLogged ul = (SessionController.UserLogged) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
         ComentaristaDAO cdb = new ComentaristaDAO();
+        SessionController.UserLogged ul = (SessionController.UserLogged) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
         Comentarista comen = cdb.find(ul.getCorreo());
-        cdb.delete(comen);
+        comen.setEstado(false);
+        cdb.update(comen);
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        
         return "/index?faces-redirect=true";
     }
     

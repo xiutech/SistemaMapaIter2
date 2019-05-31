@@ -24,6 +24,9 @@
                 <section>
                     <h1>Inicia sesión con tu correo</h1>
                     <h:form id="iniciarSesion">
+                        <p:messages id="message" closable="true">
+                            <p:autoUpdate/>
+                        </p:messages>
                         <p:panelGrid columns="2" style="margin: 0 auto" styleClass="ui-noborder">
                             <p>Correo:</p>
                             <p:inputText type="text" id="correo" value="#{sessionController.correo}" required="true" requiredMessage="Ingresa tu correo"/><br/>
@@ -44,4 +47,3 @@
         </h:body>
     </f:view>
 </html>
-

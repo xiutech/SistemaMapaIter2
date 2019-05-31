@@ -9,6 +9,7 @@ import com.xiutech.simix.modelo.Marcador;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import org.primefaces.PrimeFaces;
 
 /** 
  *  Clase del controlador dedicada al alta de comentarios en marcadores.
@@ -18,6 +19,7 @@ import javax.faces.context.FacesContext;
 @ManagedBean 
 public class ABMComentarioController{
     private String texto; 
+    private boolean editable=false;
    
     public String getTexto() {
         return texto;
@@ -33,8 +35,6 @@ public class ABMComentarioController{
      * @return el url de redireccionamiento, en este caso, para mostrar un mensaje.
      */
     public void agregaComentario(Marcador marcador){
-        String mensaje = "Se agrego exitosamente";
-        
         //busca al comentarista loggeado
         ComentaristaDAO comentaristaUDB = new ComentaristaDAO();
         SessionController.UserLogged usuario = (SessionController.UserLogged) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
@@ -66,5 +66,36 @@ public class ABMComentarioController{
         ComentarioDAO comentarioUDB = new ComentarioDAO();
         comentarioUDB.delete(comentario);
         
+    }
+    
+    public void editarComentario(Marcador marcador) {
+        ComentaristaDAO comentaristaUDB = new ComentaristaDAO();
+        SessionController.UserLogged usuario = (SessionController.UserLogged) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
+        Comentarista comentarista = comentaristaUDB.find(usuario.getCorreo());
+       
+        //crea el id del comentario
+        ComentarioId comentId = new ComentarioId();
+        comentId.setIdMarcador(marcador.getIdMarcador());
+        comentId.setCorreoComentarista(comentarista.getCorreo());
+        
+        ComentarioDAO comentarioUDB = new ComentarioDAO ();
+        Comentario coment = comentarioUDB.find(comentId);
+        coment.setTexto(texto);
+        comentarioUDB.update(coment);
+        
+    }    
+
+    /**
+     * @return the editable
+     */
+    public boolean isEditable() {
+        return editable;
+    }
+
+    /**
+     * @param editable the editable to set
+     */
+    public void setEditable(boolean editable) {
+        this.editable = editable;
     }
 }

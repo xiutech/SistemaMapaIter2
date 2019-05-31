@@ -28,21 +28,42 @@ and open the template in the editor.
             
             <main>
                 <section>
-                    
+                    <ui:insert name="mapa" >
+                        <ui:include src="/templates/mapa.xhtml" />
+                    </ui:insert>
                 </section>
                 
                 <aside>
                     <h:form id="form">
-                        <!--Se quito el requiered = true, ya tenias que actualizar nombre y contraseña forzosamente -->
-                        <!-- Se modifico por user.nombre para que funcionara -->
-                        <p:inputText  placeholder="#{user.nombre}" type="text" id="nombre" value="#{bMComentaristaController.nombre}" requiredMessage="Ingresa un nombre"/><br/>
-                        <p:commandButton action="#{bMComentaristaController.actualizaNombre()}" value="Actualizar nombre" update=""/>
+                        <p:messages id="messages" showDetail="true" closable="true">
+                        <p:autoUpdate />
+                        </p:messages>
+                        <p:inputText  placeholder="Nombre nuevo" type="text" id="nombre" value="#{bMComentaristaController.nombre}" /><br/>
+                        <p:password value="#{bMComentaristaController.contrasenia}"  placeholder="Contraseña nueva" /><br/>
                         
-                        <p:password value="#{bMComentaristaController.contrasenia}" required="true" requiredMessage="Ingresa una contraseña" placeholder="Contraseña nueva" /><br/>
-                        <p:commandButton action="#{bMComentaristaController.actualizaContrasenia()}" value="Actualizar contraseña" update=""/>
-
-                        <p:commandButton action="#{bMComentaristaController.borrarCuenta()}" value="Borrar Cuenta" update="" styleClass="logout"/>
+                        <p:commandButton action="#{bMComentaristaController.actualizaCuentaComen()}" value="Actualizar Cuenta" ajax="true">
+                             <p:confirm message="¿Seguro que quieres editar?" header="Aviso"/>
+                        </p:commandButton> 
+                        
+                        <p:confirmDialog global="true">               
+                            <p:commandButton value="Si" type="button" icon="ui-icon-check" styleClass="ui-confirmdialog-yes"/>                   
+                            <p:commandButton value="No" type="button" icon="ui-icon-close" styleClass="ui-confirmdialog-no"/>                                                
+                        </p:confirmDialog>
+                       
                     </h:form>
+                    
+                    <h:form id="form2">
+                         <p:commandButton action="#{bMComentaristaController.borrarCuenta()}" value="Borrar Cuenta"  styleClass="logout" ajax="true">
+                            <p:confirm message="¿Seguro que quieres borrar tu cuenta?" header="Aviso"/>
+                        </p:commandButton>
+                        
+                        <p:confirmDialog global="true">               
+                            <p:commandButton value="Si" type="button" icon="ui-icon-check" styleClass="ui-confirmdialog-yes"/>                   
+                            <p:commandButton value="No" type="button" icon="ui-icon-close" styleClass="ui-confirmdialog-no"/>                                                
+                        </p:confirmDialog>
+                    </h:form>
+                    
+                    
                 </aside>
             </main>
             <footer>
@@ -53,5 +74,3 @@ and open the template in the editor.
         </h:body>
     </f:view>
 </html>
-
-

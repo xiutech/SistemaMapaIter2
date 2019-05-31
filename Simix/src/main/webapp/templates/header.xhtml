@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     
     <body>
         <ui:composition>
@@ -12,6 +13,15 @@
             <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=">
             </script>
             <h:form>
+<<<<<<< HEAD
+                <p:messages id="messages" closable="true" showDetail="true" >
+                    <p:autoUpdate />
+                </p:messages>
+                <p:inputText value="#{buscarTemaController.tema}" placeholder="Busca un tema..." style="margin-left: 10px; margin-top: 10px"/>
+                <p:commandButton action ="#{buscarTemaController.buscaTema()}" value="Busca" style="margin-top: 10px"/>
+                
+                <p:menubar id="menubar"  styleClass="menu">                    
+=======
                 <p:menubar id="menubar"  styleClass="menu">
                    <f:facet name="options">
                         <h:form id="busqueda">
@@ -20,6 +30,7 @@
                             <p:commandButton action="#{buscaPorNombre.buscaPorNombre()}" value="BuscaPorNombre" update="busqueda"/>
                         </h:form>
                     </f:facet>
+>>>>>>> f88c6cd3732acd56a69dd6cc098cd92a64d85cb6
                     <p:menuitem value="SIMIX" styleClass="menuitem" action="/index?faces-redirect=true"/>
                     <p:menuitem value="#{user.nombre}" url="/administrador/PerfilAdministradorIH.xhtml" styleClass="menuitem" rendered="#{not empty user and user.rol eq 'ADMINISTRADOR'}"/>
                     <p:menuitem value="#{user.nombre}" url="/comentarista/PerfilComentaristaIH.xhtml" styleClass="menuitem" rendered="#{not empty user and user.rol eq 'COMENTARISTA'}"/>
